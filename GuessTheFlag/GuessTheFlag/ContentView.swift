@@ -46,9 +46,7 @@ struct ContentView: View {
                         Button {
                             flagTapped(number)
                         } label: {
-                            Image(countries[number])
-                                .clipShape(Capsule())
-                                .shadow(radius: 5)
+                            FlagImage(countryName: countries[number])
                         }
                             .alert(scoreTitle, isPresented: $showingScore) {
                                 Button("Continue", action: askQuestion)
@@ -110,6 +108,17 @@ struct ContentView: View {
         answers = 0
     }
 }
+
+struct FlagImage: View {
+    let countryName: String
+
+    var body: some View {
+        Image(countryName)
+            .clipShape(Capsule())
+            .shadow(radius: 5)
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
