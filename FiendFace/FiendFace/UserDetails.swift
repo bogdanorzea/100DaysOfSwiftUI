@@ -5,6 +5,7 @@
 //  Created by Bogdan Orzea on 2022-11-12.
 //
 
+import UIKit
 import SwiftUI
 import MapKit
 import CoreLocation
@@ -12,7 +13,7 @@ import CoreLocation
 struct UserDetails: View {
     @Environment(\.openURL) var openURL
     
-    var user: User
+    var user: CachedUser
     
     static let taskDateFormat: DateFormatter = {
         let formatter = DateFormatter()
@@ -23,20 +24,20 @@ struct UserDetails: View {
     
     var body: some View {
         ScrollView {
-            UserAvatar(name: user.name, isActive: user.isActive)
+            UserAvatar(name: user.wrappedName, isActive: user.isActive)
             
-            Text("Member since \(user.registered, formatter: Self.taskDateFormat)")
+            Text("Member since \(user.wrappedRegistered, formatter: Self.taskDateFormat)")
                 .font(.caption2)
                 .padding(.bottom)
 
             UserDetailsSection(label: "Company") {
-                Text(user.company)
+                Text(user.wrappedCompany)
                     .font(.headline)
             }
             
             UserDetailsSection(label: "E-mail") {
-                Button(user.email) {
-                    if let url = URL(string: "mailto:\(user.email)") {
+                Button(user.wrappedEmail) {
+                    if let url = URL(string: "mailto:\(user.wrappedEmail)") {
                         openURL(url)
                     }
                 }
@@ -46,28 +47,28 @@ struct UserDetails: View {
                 Button {
                     Self.openAddressInMap(user.address)
                 } label: {
-                    Text(user.address)
+                    Text(user.wrappedAddress)
                         .multilineTextAlignment(.leading)
                 }
             }
             
             UserDetailsSection(label: "Tags") {
-                Text(user.tags.joined(separator: ", "))
+                Text(user.wrappedTags)
             }
             
             UserDetailsSection(label: "About") {
-                Text(user.about)
+                Text(user.wrappedAbout)
             }
             
             UserDetailsSection(label: "Friends") {
-                ForEach(user.friends) { friend in
-                    Text(friend.name)
+                ForEach(user.friendsArray) { friend in
+                    Text(friend.wrappedName)
                         .padding(.bottom, 4)
                 }
             }
         }
         .padding(.horizontal)
-        .navigationTitle(user.name)
+        .navigationTitle(user.wrappedName)
         .navigationBarTitleDisplayMode(.inline)
     }
     
@@ -145,24 +146,28 @@ struct UserDetailsSection<Content: View>: View {
 
 struct UserDetails_Previews: PreviewProvider {
     static var previews: some View {
-        let fakeUser = User(
-            id: UUID(),
-            isActive: true,
-            age: 32,
-            company: "Orzea Inc.",
-            name: "Bogdan Orzea",
-            email: "bogdan@orzea.ca",
-            address: "1 University, Toronto, Ontario, Canada",
-            about: "Lorem ipsum stuff...",
-            tags: ["cillum", "consequat", "deserunt", "nostrud", "eiusmod", "minim","tempor"],
-            registered: Date(),
-            friends: [
-                Friend(id: UUID(), name: "Eugenia"),
-                Friend(id: UUID(), name: "Sebi"),
-                Friend(id: UUID(), name: "Iulia"),
-            ]
-        )
+        let dataController = DataController()
+        let context = dataController.container.viewContext
         
-        return UserDetails(user: fakeUser)
+        let fakeUser = CachedUser(context: context)
+        fakeUser.id = UUID()
+        fakeUser.isActive = true
+        fakeUser.name = "Bogdan Orzea"
+        fakeUser.age = 32
+        fakeUser.company = "Orzea Inc."
+        fakeUser.email = "bogdan@orzea.ca"
+        fakeUser.address = "1 University, Toronto, Ontario, Canada"
+        fakeUser.about = "Lorem ipsum stuff..."
+        fakeUser.tags = ["cillum", "consequat", "deserunt", "nostrud", "eiusmod", "minim","tempor"].joined(separator: ", ")
+        fakeUser.registered = Date()
+        
+        let friend1 = CachedFriend(context: context)
+        friend1.id = UUID()
+        friend1.name = "Eugenia"
+        friend1.addToUser(fakeUser)
+        
+        try? context.save()
+        
+        return UserDetails(user: fakeUser).environment(\.managedObjectContext, context)
     }
 }
