@@ -12,6 +12,11 @@ struct ContentView: View {
     @StateObject private var viewModel = ViewModel()
     
     var body: some View {
+        let showAlert = Binding<Bool>(
+            get: { self.viewModel.errorText != nil },
+            set: { if !$0 { self.viewModel.errorText = nil } }
+        )
+        
         if viewModel.isUnlocked {
             ZStack {
                 Map(coordinateRegion: $viewModel.mapRegion, annotationItems: viewModel.locations) { location in
@@ -49,12 +54,12 @@ struct ContentView: View {
                             viewModel.addLocation()
                         } label: {
                             Image(systemName: "plus")
+                                .padding()
+                                .background(.black.opacity(0.75))
+                                .foregroundColor(.white)
+                                .font(.title)
+                                .clipShape(Circle())
                         }
-                        .padding()
-                        .background(.black.opacity(0.75))
-                        .foregroundColor(.white)
-                        .font(.title)
-                        .clipShape(Circle())
                         .padding(.trailing)
                     }
                 }
@@ -72,6 +77,9 @@ struct ContentView: View {
             .background(.blue)
             .foregroundColor(.white)
             .clipShape(Capsule())
+            .alert(viewModel.errorText ?? "", isPresented: showAlert) {
+                Button("OK", role: .cancel) { }
+            }
         }
     }
 }
