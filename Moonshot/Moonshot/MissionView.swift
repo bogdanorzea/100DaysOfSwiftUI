@@ -25,6 +25,7 @@ struct MissionView: View {
                         .scaledToFit()
                         .frame(maxWidth: geometry.size.width * 0.6)
                         .padding(.top)
+                        .accessibilityLabel("Mission badge")
                     
                     Text("Launch date: \(mission.formattedLaunchDate)")
                         .foregroundColor(.white.opacity(0.5))
@@ -61,6 +62,7 @@ struct MissionView: View {
                                                 Capsule()
                                                     .strokeBorder(.white, lineWidth: 1)
                                             )
+                                            .accessibilityLabel("Astronaut picture")
                                         
                                         VStack (alignment: .leading) {
                                             Text(crewMember.astronaut.name)

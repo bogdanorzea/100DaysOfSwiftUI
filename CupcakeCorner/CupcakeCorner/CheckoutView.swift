@@ -24,6 +24,7 @@ struct CheckoutView: View {
                 } placeholder: {
                     ProgressView()
                 }.frame(height: 233)
+                    .accessibilityElement()
                 
                 Text("Your total is \(orderManager.order.cost, format: .currency(code: "USD"))")
                     .font(.title)

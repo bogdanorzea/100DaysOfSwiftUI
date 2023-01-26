@@ -89,6 +89,9 @@ struct GridLayout: View {
                             RoundedRectangle(cornerRadius: 10)
                                 .stroke(.lightBackground)
                         )
+                        .accessibilityElement()
+                        .accessibilityLabel(mission.displayName)
+                        .accessibilityHint("Launch date: \(mission.formattedLaunchDate)")
                     }
                 }
             }
@@ -106,26 +109,28 @@ struct ListLayout: View {
             ForEach(missions) { mission in
                 NavigationLink {
                     MissionView(mission: mission, astonauts: astronauts)
-                }
-            label: {
-                HStack {
-                    Image(mission.image)
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 40, height: 40)
-                        .padding()
-                    
-                    VStack(alignment: .leading) {
-                        Text(mission.displayName)
-                            .font(.headline)
-                        Text(mission.formattedLaunchDate)
-                            .font(.subheadline)
+                } label: {
+                    HStack {
+                        Image(mission.image)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
+                            .padding()
+                        
+                        VStack(alignment: .leading) {
+                            Text(mission.displayName)
+                                .font(.headline)
+                            Text(mission.formattedLaunchDate)
+                                .font(.subheadline)
+                        }
                     }
-                }
-            }.overlay(
-                RoundedRectangle(cornerRadius: 10)
-                    .stroke(.lightBackground)
-            )
+                    .accessibilityElement()
+                    .accessibilityLabel(mission.displayName)
+                    .accessibilityHint("Launch date: \(mission.formattedLaunchDate)")
+                }.overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .stroke(.lightBackground)
+                )
             }
             .listRowBackground(Color.clear)
             .listRowSeparator(.hidden)
