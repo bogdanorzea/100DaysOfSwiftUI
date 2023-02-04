@@ -10,23 +10,26 @@ import SwiftUI
 
 struct Acquaintances: View {
     @StateObject private var viewModel = ViewModel()
-    
-    @State private var selectedItem: PhotosPickerItem? = nil
+
+    @State private var pickedImage: UIImage?
     @State private var newAcquaintance: Acquaintance? = nil
+    @State private var showActionSheet: Bool = false
     @State private var showNewScreen: Bool = false
-    
+    @State private var showCameraPicker: Bool = false
+    @State private var showImagePicker: Bool = false
+
     var body: some View {
         NavigationStack {
             List {
                 ForEach(viewModel.acquaintances.values.sorted()) { acquaintance in
-                    NavigationLink(destination: {
+                    NavigationLink {
                         AcquaintanceDetails(acquaintance: acquaintance) { acquaintance in
                             viewModel.addAcquaintance(acquaintance)
                         }
-                    }) {
+                    } label: {
                         VStack(alignment: .leading) {
                             Text(acquaintance.fullName)
-                            
+
                             if !acquaintance.companyName.isEmpty {
                                 Text(acquaintance.companyName)
                                     .font(.subheadline)
@@ -37,38 +40,51 @@ struct Acquaintances: View {
                 }
             }
             .navigationTitle("Acquaintances")
-            .navigationDestination(isPresented: $showNewScreen) {
-                if let acquaintance = newAcquaintance {
-                    AcquaintanceDetails(acquaintance: acquaintance) { viewModel.addAcquaintance($0) }
-                } else {
-                    EmptyView()
-                }
-            }
+            .navigationBarTitleDisplayMode(.inline)
             .toolbar {
-                PhotosPicker(
-                    selection: $selectedItem,
-                    matching: .images,
-                    photoLibrary: .shared()) {
-                        Text("Add New")
+                Button {
+                    showActionSheet = true
+                } label: {
+                    Text("Add New")
+                }
+                .actionSheet(isPresented: $showActionSheet) {
+                    ActionSheet(
+                        title: Text("Picture source"),
+                        buttons: [
+                            .default(Text("Camera")) { self.showCameraPicker.toggle() },
+                            .default(Text("Photo Library")) { self.showImagePicker.toggle() },
+                            .destructive(Text("Cancel"))
+                        ]
+                    )
+                }
+                .sheet(isPresented: $showImagePicker) {
+                    ImagePicker(image: $pickedImage)
+                }
+                .fullScreenCover(isPresented: $showCameraPicker) {
+                    CameraPicker(image: $pickedImage)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .background(.black)
+                }
+                .sheet(isPresented: $showNewScreen) {
+                    AcquaintanceDetails(acquaintance: newAcquaintance!, addLocation: true) {
+                        viewModel.addAcquaintance($0)
                     }
+                }
             }
         }
-        .onChange(of: selectedItem) { item in
-            Task {
-                if let data = try? await item?.loadTransferable(type: Data.self) {
-                    let newAcquaintance = Acquaintance()
-                    let photoUrl = FileManager.documentsDirectory.appending(path: newAcquaintance.id.uuidString)
-                    
-                    do {
-                        try data.write(to: photoUrl, options: [.atomic, .completeFileProtection])
-                    } catch {
-                        print(error.localizedDescription)
-                        return
-                    }
-                    
-                    self.newAcquaintance = newAcquaintance
-                    viewModel.addAcquaintance(newAcquaintance)
+        .onChange(of: pickedImage) { pickedImage in
+            if let jpegData = pickedImage?.jpegData(compressionQuality: 0.8) {
+                let newAcquaintance = Acquaintance()
+                let photoUrl = FileManager.documentsDirectory.appending(path: newAcquaintance.id.uuidString)
+
+                do {
+                    try jpegData.write(to: photoUrl, options: [.atomic, .completeFileProtection])
+                } catch {
+                    print(error.localizedDescription)
+                    return
                 }
+
+                self.newAcquaintance = newAcquaintance
             }
         }
         .onChange(of: newAcquaintance) { newValue in
@@ -77,9 +93,8 @@ struct Acquaintances: View {
     }
 }
 
-struct Acquaitances_Previews: PreviewProvider {
+struct Acquaintances_Previews: PreviewProvider {
     static var previews: some View {
         Acquaintances()
     }
 }
-

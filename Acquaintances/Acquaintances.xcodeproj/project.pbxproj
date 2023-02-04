@@ -15,6 +15,10 @@
 		43132C202986E10200B70228 /* AcquaintanceDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43132C1F2986E10200B70228 /* AcquaintanceDetails.swift */; };
 		43132C232986ED8900B70228 /* Acquaintances-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43132C222986ED8900B70228 /* Acquaintances-ViewModel.swift */; };
 		43132C25298700AB00B70228 /* FileManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43132C24298700AB00B70228 /* FileManager+Extensions.swift */; };
+		431D0091298B527400FDF351 /* ImagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D0090298B527400FDF351 /* ImagePicker.swift */; };
+		431D0093298DF06800FDF351 /* LocationFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D0092298DF06800FDF351 /* LocationFetcher.swift */; };
+		431D0095298E153C00FDF351 /* CameraPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D0094298E153C00FDF351 /* CameraPicker.swift */; };
+		431D0097298E1CF400FDF351 /* AcquaintanceDetails-ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 431D0096298E1CF400FDF351 /* AcquaintanceDetails-ViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,10 @@
 		43132C212986E6F800B70228 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		43132C222986ED8900B70228 /* Acquaintances-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Acquaintances-ViewModel.swift"; sourceTree = "<group>"; };
 		43132C24298700AB00B70228 /* FileManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager+Extensions.swift"; sourceTree = "<group>"; };
+		431D0090298B527400FDF351 /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		431D0092298DF06800FDF351 /* LocationFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationFetcher.swift; sourceTree = "<group>"; };
+		431D0094298E153C00FDF351 /* CameraPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPicker.swift; sourceTree = "<group>"; };
+		431D0096298E1CF400FDF351 /* AcquaintanceDetails-ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AcquaintanceDetails-ViewModel.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,9 +72,13 @@
 				43132C0F2986DBC800B70228 /* AcquaintancesApp.swift */,
 				43132C112986DBC800B70228 /* Acquaintances.swift */,
 				43132C222986ED8900B70228 /* Acquaintances-ViewModel.swift */,
-				43132C24298700AB00B70228 /* FileManager+Extensions.swift */,
 				43132C1F2986E10200B70228 /* AcquaintanceDetails.swift */,
+				431D0096298E1CF400FDF351 /* AcquaintanceDetails-ViewModel.swift */,
 				43132C1D2986DD5E00B70228 /* Acquaintance.swift */,
+				431D0094298E153C00FDF351 /* CameraPicker.swift */,
+				43132C24298700AB00B70228 /* FileManager+Extensions.swift */,
+				431D0090298B527400FDF351 /* ImagePicker.swift */,
+				431D0092298DF06800FDF351 /* LocationFetcher.swift */,
 				43132C132986DBC900B70228 /* Assets.xcassets */,
 				43132C152986DBC900B70228 /* Preview Content */,
 			);
@@ -151,11 +163,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				431D0091298B527400FDF351 /* ImagePicker.swift in Sources */,
 				43132C1E2986DD5E00B70228 /* Acquaintance.swift in Sources */,
+				431D0097298E1CF400FDF351 /* AcquaintanceDetails-ViewModel.swift in Sources */,
+				431D0093298DF06800FDF351 /* LocationFetcher.swift in Sources */,
 				43132C232986ED8900B70228 /* Acquaintances-ViewModel.swift in Sources */,
 				43132C122986DBC800B70228 /* Acquaintances.swift in Sources */,
 				43132C102986DBC800B70228 /* AcquaintancesApp.swift in Sources */,
 				43132C202986E10200B70228 /* AcquaintanceDetails.swift in Sources */,
+				431D0095298E153C00FDF351 /* CameraPicker.swift in Sources */,
 				43132C25298700AB00B70228 /* FileManager+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,6 +301,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Acquaintances/Preview Content\"";
+				DEVELOPMENT_TEAM = Z9MVNC5HKU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Acquaintances/Info.plist;
@@ -313,6 +330,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Acquaintances/Preview Content\"";
+				DEVELOPMENT_TEAM = Z9MVNC5HKU;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Acquaintances/Info.plist;
