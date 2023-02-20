@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		43B2F3AD2993393500682198 /* CodeScanner in Frameworks */ = {isa = PBXBuildFile; productRef = 43B2F3AC2993393500682198 /* CodeScanner */; };
 		43B2F3AF2995DDDF00682198 /* ImageSaver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B2F3AE2995DDDF00682198 /* ImageSaver.swift */; };
+		43B62D09299B3391005BE1BE /* FileManager-Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43B62D08299B3391005BE1BE /* FileManager-Extension.swift */; };
 		43BF3046298EC63200CE5DAE /* HotProspectsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43BF3045298EC63200CE5DAE /* HotProspectsApp.swift */; };
 		43BF304A298EC63300CE5DAE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43BF3049298EC63300CE5DAE /* Assets.xcassets */; };
 		43BF304D298EC63300CE5DAE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 43BF304C298EC63300CE5DAE /* Preview Assets.xcassets */; };
@@ -20,6 +21,7 @@
 
 /* Begin PBXFileReference section */
 		43B2F3AE2995DDDF00682198 /* ImageSaver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ImageSaver.swift; path = ../../Instafilter/Instafilter/ImageSaver.swift; sourceTree = "<group>"; };
+		43B62D08299B3391005BE1BE /* FileManager-Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "FileManager-Extension.swift"; sourceTree = "<group>"; };
 		43BF3042298EC63200CE5DAE /* HotProspects.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HotProspects.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		43BF3045298EC63200CE5DAE /* HotProspectsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotProspectsApp.swift; sourceTree = "<group>"; };
 		43BF3049298EC63300CE5DAE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,6 +67,7 @@
 				43BF30602991F3FD00CE5DAE /* ContentView.swift */,
 				43BF30622991F41B00CE5DAE /* ProspectsView.swift */,
 				43BF30662991F63800CE5DAE /* Prospect.swift */,
+				43B62D08299B3391005BE1BE /* FileManager-Extension.swift */,
 				43B2F3AE2995DDDF00682198 /* ImageSaver.swift */,
 				43BF30642991F42400CE5DAE /* MeView.swift */,
 				43BF3049298EC63300CE5DAE /* Assets.xcassets */,
@@ -161,6 +164,7 @@
 				43B2F3AF2995DDDF00682198 /* ImageSaver.swift in Sources */,
 				43BF30672991F63800CE5DAE /* Prospect.swift in Sources */,
 				43BF30632991F41B00CE5DAE /* ProspectsView.swift in Sources */,
+				43B62D09299B3391005BE1BE /* FileManager-Extension.swift in Sources */,
 				43BF30612991F3FD00CE5DAE /* ContentView.swift in Sources */,
 				43BF3046298EC63200CE5DAE /* HotProspectsApp.swift in Sources */,
 			);

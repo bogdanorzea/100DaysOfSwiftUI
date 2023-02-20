@@ -11,7 +11,11 @@ class Prospect: Identifiable, Codable {
     var id = UUID()
     var name = "Anonymous"
     var email = ""
-    fileprivate(set) var isContacted = false
+    fileprivate(set) var contactedAt: Date?
+}
+
+extension Prospect {
+    var isContacted: Bool { contactedAt != nil }
 }
 
 @MainActor class Prospects: ObservableObject {
@@ -19,21 +23,16 @@ class Prospect: Identifiable, Codable {
     
     private let saveKey = "SavedData"
     
+    private static var filename: URL {
+        FileManager.getDocumentsDirectory().appendingPathComponent("prospects.json")
+    }
+    
     init() {
-        if let data = UserDefaults.standard.data(forKey: saveKey) {
-            if let decoded = try? JSONDecoder().decode([Prospect].self, from: data) {
-                people = decoded
-                return
-            }
-        }
-        
-        self.people = []
+        self.people = FileManager.read(from: Self.filename, default: [])
     }
     
     private func save() {
-        if let encoded = try? JSONEncoder().encode(people) {
-            UserDefaults.standard.set(encoded, forKey: saveKey)
-        }
+        FileManager.save(data: people, to: Self.filename)
     }
     
     func add(prospect: Prospect) {
@@ -43,7 +42,7 @@ class Prospect: Identifiable, Codable {
     
     func toggle(prospect: Prospect) {
         objectWillChange.send()
-        prospect.isContacted.toggle()
+        prospect.contactedAt = Date()
         save()
     }
 }

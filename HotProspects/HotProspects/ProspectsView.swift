@@ -14,9 +14,15 @@ struct ProspectsView: View {
         case none, contacted, uncontacted
     }
     
+    enum SortType {
+        case name, recent
+    }
+    
     @EnvironmentObject var prospects: Prospects
     
     @State private var isShowingScanner = false
+    @State private var isShowingSortDialog = false
+    @State private var sortType = SortType.name;
     
     let filter: FilterType
     
@@ -24,34 +30,48 @@ struct ProspectsView: View {
         NavigationView {
             List {
                 ForEach(filteredProspects) { prospect in
-                    VStack(alignment: .leading) {
-                        Text(prospect.name)
-                            .font(.headline)
-                        Text(prospect.email)
-                            .foregroundColor(.secondary)
-                    }.swipeActions {
-                        if prospect.isContacted {
-                            Button {
-                                prospects.toggle(prospect: prospect)
-                            } label: {
-                                Label("Mark uncontacted", systemImage: "person.crop.circle.badge.xmark")
-                            }
-                            .tint(.blue)
-                        } else {
-                            Button {
-                                prospects.toggle(prospect: prospect)
-                            } label: {
-                                Label("Mark contacted", systemImage: "person.crop.circle.fill.badge.checkmark")
-                            }
-                            .tint(.green)
-                            
-                            Button {
-                                addNotification(for: prospect)
-                            } label: {
-                                Label("Remind me", systemImage: "bell")
-                            }
-                            .tint(.orange)
+                    HStack {
+                        if filter == .none {
+                            Image(
+                                systemName: prospect.isContacted
+                                ? "person.fill.checkmark"
+                                : "person.fill.questionmark"
+                            )
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 24)
+                            .padding(.trailing)
                         }
+                        
+                        VStack(alignment: .leading) {
+                            Text(prospect.name)
+                                .font(.headline)
+                            Text(prospect.email)
+                                .foregroundColor(.secondary)
+                        }.swipeActions {
+                            if prospect.isContacted {
+                                Button {
+                                    prospects.toggle(prospect: prospect)
+                                } label: {
+                                    Label("Mark uncontacted", systemImage: "person.crop.circle.badge.xmark")
+                                }
+                                .tint(.blue)
+                            } else {
+                                Button {
+                                    prospects.toggle(prospect: prospect)
+                                } label: {
+                                    Label("Mark contacted", systemImage: "person.crop.circle.fill.badge.checkmark")
+                                }
+                                .tint(.green)
+                                
+                                Button {
+                                    addNotification(for: prospect)
+                                } label: {
+                                    Label("Remind me", systemImage: "bell")
+                                }
+                                .tint(.orange)
+                            }
+                    }
                     }
                 }
             }
@@ -62,9 +82,24 @@ struct ProspectsView: View {
                 } label: {
                     Label("Scan", systemImage: "qrcode.viewfinder")
                 }
+                
+                Button {
+                    isShowingSortDialog = true
+                } label: {
+                    Label("Sort", systemImage: "line.3.horizontal.decrease.circle")
+                }
             }
             .sheet(isPresented: $isShowingScanner) {
                 CodeScannerView(codeTypes: [.qr], simulatedData: "Bogdan Orzea\nbogdan@orzea.ca", completion: handleScan)
+            }
+            .confirmationDialog("Sort Options", isPresented: $isShowingSortDialog) {
+                Button("By Name") {
+                    sortType = .name
+                }
+                
+                Button("By most recent") {
+                    sortType = .recent
+                }
             }
         }
     }
@@ -81,13 +116,27 @@ struct ProspectsView: View {
     }
     
     var filteredProspects: [Prospect] {
+        var result = [Prospect]()
+        
         switch filter {
         case .none:
-            return prospects.people
+            result = prospects.people
         case .contacted:
-            return prospects.people.filter { $0.isContacted }
+            result = prospects.people.filter { $0.isContacted }
         case .uncontacted:
-            return prospects.people.filter { !$0.isContacted }
+            result = prospects.people.filter { !$0.isContacted }
+        }
+        
+        switch sortType {
+        case .name:
+            return result.sorted { $0.name < $1.name}
+        case .recent:
+            return result.sorted {
+                let first = $0.contactedAt ?? Date(timeIntervalSince1970: 0)
+                let second = $1.contactedAt ?? Date(timeIntervalSince1970: 0)
+                
+                return first.compare(second) == .orderedDescending
+            }
         }
     }
     
