@@ -41,7 +41,6 @@
 		437C9EA829E251B00044DF27 = {
 			isa = PBXGroup;
 			children = (
-				4326A17E2A05DCA8003BB369 /* EditCards.swift */,
 				437C9EB329E251B00044DF27 /* Flashzilla */,
 				437C9EB229E251B00044DF27 /* Products */,
 			);
@@ -59,6 +58,7 @@
 			isa = PBXGroup;
 			children = (
 				437C9EB429E251B00044DF27 /* FlashzillaApp.swift */,
+				4326A17E2A05DCA8003BB369 /* EditCards.swift */,
 				437C9EB629E251B00044DF27 /* ContentView.swift */,
 				4390DCD729E4B4AA0097793B /* CardView.swift */,
 				4390DCD529E4B3CB0097793B /* Card.swift */,
